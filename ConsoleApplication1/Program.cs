@@ -2,13 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using DashasFromTfs;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace ConsoleApplication1
 {
@@ -21,7 +15,7 @@ namespace ConsoleApplication1
             var t = JsonConvert.DeserializeObject<Item>(text);
             List<Tuple<Item,string>> list =new List<Tuple<Item, string>>();
             AddItems(list,t,-1,"1",0);
-            list = list.Select(a =>new Tuple<Item,string>(a.Item1,a.Item2.Substring(4))).OrderBy(a => Int32.Parse(a.Item2.Split('.')[0])).ToList();
+            list = list.Select(a =>new Tuple<Item,string>(a.Item1,a.Item2.Substring(3).TrimStart('.'))).Where(a => a.Item2 != "").OrderBy(a => Int32.Parse(a.Item2.Split('.')[0])).ToList();
             string header = "id,name,date,time,type,activity,severity,employee";
             List< string> lines =new List<string>();
             lines.Add(header);
@@ -53,6 +47,7 @@ namespace ConsoleApplication1
             else
             {
                 int i = 1;
+                list.Add(new Tuple<Item, string>(item, prev + "." + id));
                 foreach (var item1 in item.Items)
                 {
                     AddItems(list,item1,depth, prev + "." + id, i);
