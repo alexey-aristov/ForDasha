@@ -10,7 +10,7 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
-            string filePath = @"C:\Users\alexey0206\Documents\Downloads\data.json";
+            string filePath = @"C:\Dasha\0to60days.json";
             string text = File.ReadAllText(filePath);
             var t = JsonConvert.DeserializeObject<Item>(text);
             List<Tuple<Item,string>> list =new List<Tuple<Item, string>>();
@@ -25,13 +25,13 @@ namespace ConsoleApplication1
                         $"{a.Item2},{a.Item1.Name},{getDate(a.Item1.Date)},{getTime(a.Item1.Time)},{a.Item1.Type},{a.Item1.Activity},{a.Item1.Severity},{a.Item1.AssignedTo}")
                     .ToList());
             
-                File.WriteAllLines(@"C:\Users\alexey0206\Documents\Downloads\data.out.txt",lines);
+                File.WriteAllLines(@"C:\Dasha\out\0to60days.csv", lines);
             int y = 0;
         }
 
         private static string getDate(DateTime dateTime)
         {
-            return dateTime == DateTime.MinValue ? "" : dateTime.ToString("yyyy-mm-dd");
+            return dateTime == DateTime.MinValue ? "" : dateTime.ToString("yyyy-MM-dd");
         }
         private static string getTime(TimeSpan time)
         {
